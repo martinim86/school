@@ -1,80 +1,58 @@
 <?php
-class DiceRoller 
-{
-	public $diceValues;
-	public  $diceCount;
-	public $count;
-	public $index;
-	
-	function __construct($count = 6,$diceCount,$index) {
-       $this->diceCount=$diceCount;
-	   $this->diceValue=$diceValue;
-	   $this->index=$index;
-	   $this->roll($diceCount,$index);
+class DiceRoller {
+    /*массив значений, выпавших на костях*/
+	private $diceValues = [];
+	/*количество костей*/
+	private $diceCount;
+    /*конструктор. Считать что на всех костях изначально выпала шестёрка*/
+	function __construct($count = 6) {
+
     }
-	public function getCount()
-    {
+    /*возвращает количество костей*/
+	public function getCount(){
 		return $this->diceCount;
     }
-	public function getValue()
+    /*возвращает значение на кости с указанныи индексом*/
+	public function getValue($index)
     {
-		$i=1;
-		foreach($this->diceValues as $values){
-		   echo $i.")".$this->index."= ".$values.",";
-		   $i++;
-	   }
+		return $this->roll($index);
     }
-	public function roll($diceCount,$index)
+    /*бросаает кость с указанным индексом*/
+	public function roll($index)
     {
-		$diceValues = array();
-		for ($i = 1; $i <= $diceCount; $i++) {
-		$diceValues[]=mt_rand(1,6);
-		}
-		$this->diceValues=$diceValues;
-		$this->diceCount=$diceCount;
+        return mt_rand(1,6);
     }
+    /*возвращает сумму значений на всех костях*/
 	public function total()
     {
-		echo array_sum($this->diceValues);
-       
+		return array_sum($this->diceValues);
     }
+    /*возаращает значения всех костей в виде строки*/
 	public function __toString()
     {
-		echo "(";
-       foreach($this->diceValues as $values){
-		   echo $values.",";
-	   }
-	   echo ")";
+        return  implode(",", $this->diceValues);
     }
 }
 
 
 class RiggedDiceRoller extends DiceRoller {
+    /*минимальное значение для результата броска кости*/
 	public $minValue;
+	/*начение для костей по-умолчанию */
 	public function RiggedDice($count, $min)
     {
-	
-    }
-	public function getMin(){
-		echo min($this->diceValues);
-		echo $this->minValue;
-		$this->minValue = min($this->diceValues);
+
 	}
-	
+	/*возвращает минимальное значение для результата броска кости*/
+	public function getMin()
+    {
+
+	}
+
 }
 
 
-$obj= new DiceRoller(3,4,"Index");
-echo $obj->diceValues."<br>";
-echo $obj->diceCount."<br>";
-echo $obj->getCount()."<br>";
-echo $obj->getValue()."<br>";;
-echo $obj->__toString()."<br>";
-echo $obj->total()."<br>";
-echo $obj->index."<br>";
+$obj= new DiceRoller();
+echo $obj;
 
-$obj2= new RiggedDiceRoller(3,4,"Index");
-echo $obj2->getMin()."<br>";;
-echo $obj2->minValue."<br>";;
-
-?>
+//?>
