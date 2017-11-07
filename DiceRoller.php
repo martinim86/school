@@ -1,16 +1,22 @@
 <?php
+
+/**
+ * Class DiceRoller
+ *
+ * https://gist.github.com/kroer/aec66e84ff4d63fa7c46a5eeb65ac958
+ */
 class DiceRoller {
     /*массив значений, выпавших на костях*/
     /**
      * @var $diceValues = [];
      */
-    private $diceValues = [];
+    protected $diceValues = [];
 	/*количество костей*/
 	private $diceCount;
     /*конструктор. Считать что на всех костях изначально выпала шестёрка*/
-	function __construct($count = 6) {
-        for ($i = 0; $i <= $this->diceCount; $i++) {
-            $this->roll(1);
+	function __construct($count) {
+        for ($i = 1; $i <= $count; $i++) {
+            $this->diceValues[$i] = 6;
         }
     }
     /*возвращает количество костей*/
@@ -20,12 +26,12 @@ class DiceRoller {
     /*возвращает значение на кости с указанныи индексом*/
 	public function getValue($index)
     {
-		return $this->diceValues;
+		return array_pop($this->diceValues);
     }
     /*бросаает кость с указанным индексом*/
 	public function roll($index)
     {
-        array_push($this->diceValues,mt_rand(1,6));
+        $this->diceValues[$index]=mt_rand(1,6);
     }
     /*возвращает сумму значений на всех костях*/
 	public function total()
@@ -35,31 +41,40 @@ class DiceRoller {
     /*возаращает значения всех костей в виде строки*/
 	public function __toString()
     {
-        return  "(".implode(",", $this->diceValues).")";
+        return  "&ldquo; {".implode(",", $this->diceValues)."} &rdquo;";
     }
 }
 
 
 class RiggedDiceRoller extends DiceRoller {
     /*минимальное значение для результата броска кости*/
-	public $minValue;
-	/*значение для костей по-умолчанию */
-	public function RiggedDice($count, $min)
-    {
+	private $minValue;
 
+	/*значение для костей по-умолчанию */
+    function __construct($count, $min)
+    {
+        parent::__construct($count);
+        $this->minValue = $min;
 	}
 	/*возвращает минимальное значение для результата броска кости*/
 	public function getMin()
     {
-        $this->minValue = min($this->getValue(1));
+        return $this->minValue;
 	}
+    public function total()
+    {
+        return array_sum($this->diceValues)+1;
+    }
+    public function __toString()
+    {
+        return  "rigged &ldquo; {".implode(",", $this->diceValues)."} &rdquo; min ".$this->minValue;
+    }
 
 }
 
 
-$obj= new RiggedDiceRoller();
+$obj= new RiggedDiceRoller(3,4);
 echo $obj;
-$obj->getMin();
-echo $obj->minValue;
+
 
 //?>
