@@ -20,7 +20,7 @@ class DiceRoller {
     /*бросаает кость с указанным индексом*/
 	public function roll($index)
     {
-        return mt_rand(1,6);
+        return $this->diceValues = mt_rand(1,6);
     }
     /*возвращает сумму значений на всех костях*/
 	public function total()
