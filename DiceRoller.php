@@ -138,7 +138,7 @@ class RiggedDiceRoller extends DiceRoller {
 
 
 try {
-    $obj= new RiggedDiceRoller(3,4);
+    $obj= new RiggedDiceRoller(4,<script>);
     echo $obj->getCount();
 } catch( Exception $e ) {
     echo "Error : {$e->getMessage()}";
